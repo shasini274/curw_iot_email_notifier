@@ -36,7 +36,7 @@ echo "Running Pusher.py. Logs Available in pusher.log file."
 #  >>file.txt: Open file.txt in append mode and redirect stdout there.
 #  2>&1: Redirect stderr to "where stdout is currently going". In this case, that is a file opened in append mode.
 #In other words, the &1 reuses the file descriptor which stdout currently uses.
-python utils.py >> email_notifier.log 2>&1
+python3 utils.py >> email_notifier.log 2>&1
 
 # Deactivating virtual environment
 echo "Deactivating virtual environment"

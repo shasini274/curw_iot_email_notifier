@@ -85,87 +85,87 @@ if __name__ == "__main__":
             print(gap_time_min)
             print(station_name)
 
-            if 0 < gap_time_min < 30:
+            if not ((station_name == 'Leecom Test') | (station_name == 'Nawala') | (station_name == 'Ragama')):
+                if 0 < gap_time_min < 30:
 
-                #check in the json whether the station has come online
+                    #check in the json whether the station has come online
 
-                if not os.stat('offlinestations.json').st_size == 0:
-                    with open('offlinestations.json', 'r') as openfile:
-                        json_object = json.load(openfile)
+                    if not os.stat('offlinestations.json').st_size == 0:
+                        with open('offlinestations.json', 'r') as openfile:
+                            json_object = json.load(openfile)
 
-                        for i in range(len(json_object)):
-                            if json_object[i]['StationName'] == station_name:
-                            #if any(objectjs['StationName'] == station_name for objectjs in json_object):
+                            for i in range(len(json_object)):
+                                if json_object[i]['StationName'] == station_name:
+                                #if any(objectjs['StationName'] == station_name for objectjs in json_object):
 
-                                print("%s has started to report back" % station_name)
-                                del json_object[i]
-                                break
-
-
-                        open('offlinestations.json', "w").write(
-                            json.dumps(json_object, sort_keys=True, indent=4, separators=(',', ': '))
-                        )
-                # if so, notify via an email that the station has come online
-                # Also remove the station from the json
-
-                if station_name in stationname:
-                    for i, j in enumerate(stationname):
-                        if j == station_name:
-                            print(i)
-                            variables.pop(i)
-
-                    print("%s was removed from the json as it has started to respond at %s" % (station_name, lastupdated_datetime))
-                    stationname.remove(station_name)
-                    send_email(msg=EMAIL_ALERT_TEMPLATE_2 % (station_name, lastupdated_datetime))
-
-            if gap_time_min >= 30:
-                print(station_name)
-                print(gap_time_min)
-                #check if the json is empty
-
-                if os.stat('offlinestations.json').st_size == 0:
-                    print('Json file is empty!')
-                    print("%s station has stopped responding since %s" % (station_name, lastupdated_datetime))
-
-                    stationname.append(station_name)
-                    variables.append("Precipitation")
-
-                    output = [{"StationName": sn, "Variable": var} for sn, var in zip(stationname, variables)]
-
-                    outputjs = json.dumps(output, indent=4)
-                    with open("offlinestations.json", "w") as outfile:
-                        outfile.write(outputjs)
-
-                    send_email(msg=EMAIL_ALERT_TEMPLATE_1 % (station_name, lastupdated_datetime, now_date_obj, gap_time_min, station_name))
-
-                #check if the station is already exist in the json
-                else:
-                    with open('offlinestations.json', 'r') as openfile:
-                        json_object = json.load(openfile)
-
-                        #if station does not exist in the json, insert to the json file
-                        #Also notify relevant parties via an email
-
-                        if not any(objectjs['StationName'] == station_name for objectjs in json_object):
-
-                            print("%s station has stopped responding since %s" % (station_name, lastupdated_datetime))
+                                    print("%s has started to report back" % station_name)
+                                    del json_object[i]
+                                    break
 
 
-                            stationname.append(station_name)
-                            variables.append("Precipitation")
+                            open('offlinestations.json', "w").write(
+                                json.dumps(json_object, sort_keys=True, indent=4, separators=(',', ': '))
+                            )
+                    # if so, notify via an email that the station has come online
+                    # Also remove the station from the json
 
-                            output = [{"StationName": sn, "Variable": var} for sn, var in
-                                      zip(stationname, variables)]
+                    if station_name in stationname:
+                        for i, j in enumerate(stationname):
+                            if j == station_name:
+                                print(i)
+                                variables.pop(i)
 
-                            outputjs = json.dumps(output, indent=4)
+                        print("%s was removed from the json as it has started to respond at %s" % (station_name, lastupdated_datetime))
+                        stationname.remove(station_name)
+                        send_email(msg=EMAIL_ALERT_TEMPLATE_2 % (station_name, lastupdated_datetime))
 
-                            with open("offlinestations.json", "w") as outfile:
-                                outfile.write(outputjs)
+                if gap_time_min >= 30:
+                    print(station_name)
+                    print(gap_time_min)
+                    #check if the json is empty
 
-                            send_email(msg=EMAIL_ALERT_TEMPLATE_1 % (
-                            station_name, lastupdated_datetime, now_date_obj, gap_time_min, station_name))
-                        else:
-                            print("%s Station is already reported as a not working location" % station_name)
+                    if os.stat('offlinestations.json').st_size == 0:
+                        print('Json file is empty!')
+                        print("%s station has stopped responding since %s" % (station_name, lastupdated_datetime))
+
+                        stationname.append(station_name)
+                        variables.append("Precipitation")
+
+                        output = [{"StationName": sn, "Variable": var} for sn, var in zip(stationname, variables)]
+
+                        outputjs = json.dumps(output, indent=4)
+                        with open("offlinestations.json", "w") as outfile:
+                            outfile.write(outputjs)
+
+                        send_email(msg=EMAIL_ALERT_TEMPLATE_1 % (station_name, lastupdated_datetime, station_name))
+
+                    #check if the station is already exist in the json
+                    else:
+                        with open('offlinestations.json', 'r') as openfile:
+                            json_object = json.load(openfile)
+
+                            #if station does not exist in the json, insert to the json file
+                            #Also notify relevant parties via an email
+
+                            if not any(objectjs['StationName'] == station_name for objectjs in json_object):
+
+                                print("%s station has stopped responding since %s" % (station_name, lastupdated_datetime))
+
+
+                                stationname.append(station_name)
+                                variables.append("Precipitation")
+
+                                output = [{"StationName": sn, "Variable": var} for sn, var in
+                                          zip(stationname, variables)]
+
+                                outputjs = json.dumps(output, indent=4)
+
+                                with open("offlinestations.json", "w") as outfile:
+                                    outfile.write(outputjs)
+
+                                send_email(msg=EMAIL_ALERT_TEMPLATE_1 % (station_name, lastupdated_datetime, station_name))
+                            else:
+                                print("%s Station is already reported as a not working location" % station_name)
 
 
     except Exception as e:
