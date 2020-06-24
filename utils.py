@@ -43,10 +43,10 @@ if __name__ == "__main__":
     logging.info("--- Connecting to MySQL Database ---")
     mydb = mysql.connector.connect(host=MYSQL_HOST, database=MYSQL_DB, user=MYSQL_USER, passwd=MYSQL_PASSWORD)
 
-    now_date_obj = datetime.now()
-    #now_date_obj = utc_to_sl(datetime.now()).date()
+    #now_date_obj = datetime.now()
+    now_date_obj = utc_to_sl(datetime.now()).date()
     #datetime.strptime(start_datetime_tally, '%Y, %m, %d, %H')
-    now_datetime = datetime.strptime(now_date_obj, COMMON_DATE_FORMAT)
+    #now_datetime = datetime.strptime(now_date_obj, COMMON_DATE_FORMAT)
 
     print("Successfully connected to %s database at curw_iot_platform cloud (%s)." % (MYSQL_DB, MYSQL_HOST))
 
@@ -134,7 +134,7 @@ if __name__ == "__main__":
                     with open("offlinestations.json", "w") as outfile:
                         outfile.write(outputjs)
 
-                    send_email(msg=EMAIL_ALERT_TEMPLATE_1 % (station_name, lastupdated_datetime, now_datetime, gap_time_min, station_name))
+                    send_email(msg=EMAIL_ALERT_TEMPLATE_1 % (station_name, lastupdated_datetime, now_date_obj, gap_time_min, station_name))
 
                 #check if the station is already exist in the json
                 else:
@@ -161,10 +161,10 @@ if __name__ == "__main__":
                                 outfile.write(outputjs)
 
                             send_email(msg=EMAIL_ALERT_TEMPLATE_1 % (
-                            station_name, lastupdated_datetime, now_datetime, gap_time_min, station_name))
+                            station_name, lastupdated_datetime, now_date_obj, gap_time_min, station_name))
                         else:
                             print("%s Station is already reported as a not working location" % station_name)
-                            
+
 
     except Exception as e:
         logging.warning("--- Connecting to MySQL failed--- %s", e)
