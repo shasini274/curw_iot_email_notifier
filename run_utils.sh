@@ -8,8 +8,8 @@ echo `date`
 echo "Changing into ~/curw_iot_email_notifer"
 
 echo "Inside `pwd`"
-cd curw_iot_email_notifer
-echo "Inside `pwd`"
+#cd curw_iot_email_notifer
+#echo "Inside `pwd`"
 
 # If no venv (python3 virtual environment) exists, then create one.
 if [ ! -d "venv" ]
