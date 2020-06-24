@@ -45,6 +45,7 @@ if __name__ == "__main__":
 
     #now_date_obj = datetime.now()
     now_date_obj = utc_to_sl(datetime.now()).date()
+    print(now_date_obj)
     #datetime.strptime(start_datetime_tally, '%Y, %m, %d, %H')
     #now_datetime = datetime.strptime(now_date_obj, COMMON_DATE_FORMAT)
 
