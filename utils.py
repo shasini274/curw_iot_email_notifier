@@ -44,7 +44,7 @@ if __name__ == "__main__":
     mydb = mysql.connector.connect(host=MYSQL_HOST, database=MYSQL_DB, user=MYSQL_USER, passwd=MYSQL_PASSWORD)
 
     #now_date_obj = datetime.now()
-    now_date_obj = utc_to_sl(datetime.now()).date()
+    now_date_obj = utc_to_sl(datetime.now())
     print(now_date_obj)
     #datetime.strptime(start_datetime_tally, '%Y, %m, %d, %H')
     #now_datetime = datetime.strptime(now_date_obj, COMMON_DATE_FORMAT)
