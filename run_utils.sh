@@ -7,7 +7,7 @@ echo `date`
 # Change directory into where email_notifer.py script is located.
 echo "Changing into ~/curw_iot_email_notifer"
 
-
+echo "Inside `pwd`"
 cd curw_iot_email_notifer
 echo "Inside `pwd`"
 
