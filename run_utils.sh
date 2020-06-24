@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 
 # Print execution date time
-echo `date`
 
-# Change directory into where email_notifer.py script is located.
-echo "Changing into ~/data-pusher"
-cd /home/uwcc-admin/curw_iot_email_notifer
 echo "Inside `pwd`"
 
 # If no venv (python3 virtual environment) exists, then create one.
