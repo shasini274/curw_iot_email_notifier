@@ -151,7 +151,6 @@ if __name__ == "__main__":
 
                                 print("%s station has stopped responding since %s" % (station_name, lastupdated_datetime))
 
-
                                 stationname.append(station_name)
                                 variables.append("Precipitation")
 
