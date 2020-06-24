@@ -8,7 +8,7 @@ echo `date`
 echo "Changing into ~/curw_iot_email_notifer"
 
 # shellcheck disable=SC2164
-cd /home/uwcc-admin/curw_iot_email_notifer
+#cd /home/uwcc-admin/curw_iot_email_notifer
 echo "Inside `pwd`"
 
 # If no venv (python3 virtual environment) exists, then create one.
