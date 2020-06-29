@@ -89,14 +89,22 @@ if __name__ == "__main__":
                 if 0 < gap_time_min < 30:
 
                     #check in the json whether the station has come online
+                    # if so, notify via an email that the station has come online
+                    # Also remove the station from the json
 
                     if not os.stat('offlinestations.json').st_size == 0:
                         with open('offlinestations.json', 'r') as openfile:
                             json_object = json.load(openfile)
 
+
                             for i in range(len(json_object)):
                                 if json_object[i]['StationName'] == station_name:
                                 #if any(objectjs['StationName'] == station_name for objectjs in json_object):
+
+                                    print("%s was removed from the json as it has started to respond at %s" % (
+                                        station_name, lastupdated_datetime))
+
+                                    send_email(msg=EMAIL_ALERT_TEMPLATE_2 % (station_name, lastupdated_datetime))
 
                                     print("%s has started to report back" % station_name)
                                     del json_object[i]
@@ -106,8 +114,6 @@ if __name__ == "__main__":
                             open('offlinestations.json', "w").write(
                                 json.dumps(json_object, sort_keys=True, indent=4, separators=(',', ': '))
                             )
-                    # if so, notify via an email that the station has come online
-                    # Also remove the station from the json
 
                     if station_name in stationname:
                         for i, j in enumerate(stationname):
@@ -115,9 +121,8 @@ if __name__ == "__main__":
                                 print(i)
                                 variables.pop(i)
 
-                        print("%s was removed from the json as it has started to respond at %s" % (station_name, lastupdated_datetime))
                         stationname.remove(station_name)
-                        send_email(msg=EMAIL_ALERT_TEMPLATE_2 % (station_name, lastupdated_datetime))
+
 
                 if gap_time_min >= 30:
                     print(station_name)
